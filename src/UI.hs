@@ -1,17 +1,28 @@
 import Graphics.UI.Threepenny.Core as UI
 import qualified Graphics.UI.Threepenny as UI
+import System.Environment
 import Data.Maybe
 import Game
 import Grid
 import RunGame
 --import Main 
 
+
+
 canWidth,canHeight :: Num a => a
 canWidth  = 500
 canHeight = 500
 
+
+
 main :: IO ()
-main = startGUI defaultConfig setup
+main =
+  do
+    setEnv "ADDR" "0.0.0.0"
+    startGUI defaultConfig {jsAddr = Nothing} setup
+
+
+
 
 setup :: Window -> UI ()
 setup window =
