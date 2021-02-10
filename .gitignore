@@ -1,2 +1,5 @@
 .stack-work/
 *~
+Minesweeper-linux-x64/
+build/
+node_modules/
