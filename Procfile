@@ -1,1 +1,1 @@
-web: my-project-exe
+worker: my-project-exe
