@@ -1,2 +1,2 @@
-web: my-project-exe
+web: my-project-exe -p $PORT
 
