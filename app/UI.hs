@@ -6,7 +6,7 @@ import Game
 import Grid
 import RunGame
 --import Main 
-
+import System.IO
 
 
 canWidth,canHeight :: Num a => a
@@ -18,8 +18,9 @@ canHeight = 500
 main :: IO ()
 main =
   do
-    setEnv "ADDR" "0.0.0.0"
-    startGUI defaultConfig {jsAddr = Nothing} setup
+    hSetBuffering stdout LineBuffering
+    [port] <- getArgs
+    startGUI defaultConfig {jsPort = Just (read port)} setup
 
 
 
@@ -29,10 +30,10 @@ setup window =
   
   do -- Create them user interface elements
     --canvas         <- mkCanvas canWidth canHeight   -- The drawing area
-     
+    
     return window # set title "Minesweeper"
      --getBody window #+ [column [pure canvas]]
-    
+    button <- UI.button # set UI.text "Click me!"
     currentCoordinates  <- UI.span # set text "Coordinates: "
     currentCell  <- UI.span # set text "Cell: "
      -- Styling

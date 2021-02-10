@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 8ab6ca4f57cfd1d5834d743b157b90902383028928764d32413ea8b570c046ab
+-- hash: 0bab8cbf73650f34e8b4290bdaeb91ba9bd49793e78f191a142ee3bad90f27b3
 
 name:           my-project
 version:        0.1.0.0
@@ -27,29 +27,35 @@ source-repository head
 
 library
   exposed-modules:
-      Lib
+      Game
+      Grid
+      RunGame
   other-modules:
       Paths_my_project
   hs-source-dirs:
       src
   build-depends:
-      base >=4.7 && <5
+      QuickCheck >=2.12
+    , aeson >=1.5.4.1
+    , base >=4.7 && <5
+    , random >=1.1
+    , threepenny-gui >=0.9.0.0
   default-language: Haskell2010
 
 executable my-project-exe
   main-is: UI.hs
-  other-modules: Grid, RunGame, Game 
-      --Paths_my_project
+  other-modules:
+      Paths_my_project
   hs-source-dirs:
-      src
+      app
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.7 && <5
+      QuickCheck >=2.12
+    , aeson >=1.5.4.1
+    , base >=4.7 && <5
     , my-project
-    , QuickCheck >=2.12
     , random >=1.1
     , threepenny-gui >=0.9.0.0
-    , aeson >=1.5.4.1
   default-language: Haskell2010
 
 test-suite my-project-test
@@ -61,10 +67,10 @@ test-suite my-project-test
       test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.7 && <5
+      QuickCheck >=2.12
+    , aeson >=1.5.4.1
+    , base >=4.7 && <5
     , my-project
-    , QuickCheck >=2.12
     , random >=1.1
     , threepenny-gui >=0.9.0.0
-    , aeson >=1.5.4.1
   default-language: Haskell2010
