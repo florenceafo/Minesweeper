@@ -29,12 +29,12 @@ version :: Version
 version = Version [0,1,0,0] []
 bindir, libdir, dynlibdir, datadir, libexecdir, sysconfdir :: FilePath
 
-bindir     = "/home/florence/Documents/projects/mastermind-new/.stack-work/install/x86_64-linux-tinfo6/58f2c96f0c188f916bc33c01f11765f772751ebfee5fa61e18a8ece7145d8acd/8.10.3/bin"
-libdir     = "/home/florence/Documents/projects/mastermind-new/.stack-work/install/x86_64-linux-tinfo6/58f2c96f0c188f916bc33c01f11765f772751ebfee5fa61e18a8ece7145d8acd/8.10.3/lib/x86_64-linux-ghc-8.10.3/my-project-0.1.0.0-GpeGP54QFAdE3huI7KAzdT-my-project-exe"
-dynlibdir  = "/home/florence/Documents/projects/mastermind-new/.stack-work/install/x86_64-linux-tinfo6/58f2c96f0c188f916bc33c01f11765f772751ebfee5fa61e18a8ece7145d8acd/8.10.3/lib/x86_64-linux-ghc-8.10.3"
-datadir    = "/home/florence/Documents/projects/mastermind-new/.stack-work/install/x86_64-linux-tinfo6/58f2c96f0c188f916bc33c01f11765f772751ebfee5fa61e18a8ece7145d8acd/8.10.3/share/x86_64-linux-ghc-8.10.3/my-project-0.1.0.0"
-libexecdir = "/home/florence/Documents/projects/mastermind-new/.stack-work/install/x86_64-linux-tinfo6/58f2c96f0c188f916bc33c01f11765f772751ebfee5fa61e18a8ece7145d8acd/8.10.3/libexec/x86_64-linux-ghc-8.10.3/my-project-0.1.0.0"
-sysconfdir = "/home/florence/Documents/projects/mastermind-new/.stack-work/install/x86_64-linux-tinfo6/58f2c96f0c188f916bc33c01f11765f772751ebfee5fa61e18a8ece7145d8acd/8.10.3/etc"
+bindir     = "/home/florence/Documents/projects/Minesweeper/.stack-work/install/x86_64-linux-tinfo6/58f2c96f0c188f916bc33c01f11765f772751ebfee5fa61e18a8ece7145d8acd/8.10.3/bin"
+libdir     = "/home/florence/Documents/projects/Minesweeper/.stack-work/install/x86_64-linux-tinfo6/58f2c96f0c188f916bc33c01f11765f772751ebfee5fa61e18a8ece7145d8acd/8.10.3/lib/x86_64-linux-ghc-8.10.3/my-project-0.1.0.0-6GpQLnrAqVn6Ywww0ahK9L-my-project-exe"
+dynlibdir  = "/home/florence/Documents/projects/Minesweeper/.stack-work/install/x86_64-linux-tinfo6/58f2c96f0c188f916bc33c01f11765f772751ebfee5fa61e18a8ece7145d8acd/8.10.3/lib/x86_64-linux-ghc-8.10.3"
+datadir    = "/home/florence/Documents/projects/Minesweeper/.stack-work/install/x86_64-linux-tinfo6/58f2c96f0c188f916bc33c01f11765f772751ebfee5fa61e18a8ece7145d8acd/8.10.3/share/x86_64-linux-ghc-8.10.3/my-project-0.1.0.0"
+libexecdir = "/home/florence/Documents/projects/Minesweeper/.stack-work/install/x86_64-linux-tinfo6/58f2c96f0c188f916bc33c01f11765f772751ebfee5fa61e18a8ece7145d8acd/8.10.3/libexec/x86_64-linux-ghc-8.10.3/my-project-0.1.0.0"
+sysconfdir = "/home/florence/Documents/projects/Minesweeper/.stack-work/install/x86_64-linux-tinfo6/58f2c96f0c188f916bc33c01f11765f772751ebfee5fa61e18a8ece7145d8acd/8.10.3/etc"
 
 getBinDir, getLibDir, getDynLibDir, getDataDir, getLibexecDir, getSysconfDir :: IO FilePath
 getBinDir = catchIO (getEnv "my_project_bindir") (\_ -> return bindir)
