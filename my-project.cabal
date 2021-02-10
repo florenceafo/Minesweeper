@@ -37,16 +37,19 @@ library
   default-language: Haskell2010
 
 executable my-project-exe
-  main-is: Main.hs
-  other-modules:
-      Paths_my_project
+  main-is: UI.hs
+  other-modules: Grid, RunGame, Game 
+      --Paths_my_project
   hs-source-dirs:
-      app
+      src
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
     , my-project
+    , QuickCheck >=2.12
+    , random >=1.1
     , threepenny-gui >=0.9.0.0
+    , aeson >=1.5.4.1
   default-language: Haskell2010
 
 test-suite my-project-test
@@ -60,4 +63,8 @@ test-suite my-project-test
   build-depends:
       base >=4.7 && <5
     , my-project
+    , QuickCheck >=2.12
+    , random >=1.1
+    , threepenny-gui >=0.9.0.0
+    , aeson >=1.5.4.1
   default-language: Haskell2010

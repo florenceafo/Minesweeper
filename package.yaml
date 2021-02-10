@@ -27,8 +27,8 @@ library:
 
 executables:
   my-project-exe:
-    main:                Main.hs
-    source-dirs:         app
+    main:                UI.hs
+    source-dirs:         src
     ghc-options:
     - -threaded
     - -rtsopts

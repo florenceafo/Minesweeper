@@ -1,6 +1,9 @@
 module Main where
 
-import Lib
+import Grid
+import Game
+import RunGame
+import System.Random
 
 main :: IO ()
-main = someFunc
+main = runGame implementation
