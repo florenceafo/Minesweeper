@@ -7,13 +7,15 @@ import System.Random
 -- main = putStrLn "Hello, Haskell!"
 
 data Interface = Interface
-  { iAllBlankGrid    :: Int -> Grid
-  , iAddBombs        :: Int -> Grid -> IO Grid
-  , iScore           :: Grid -> Int
-  , iGameOver        :: Grid -> Bool
-  , iShowGrid        :: Grid -> IO()
-  , iUpdateWithBombs :: Grid -> [(Int, Int)] -> Grid
-  , iDetectAllBombs :: Grid -> [(Int, Int)]
+  { iAllBlankGrid      :: Int -> Grid
+  , iAddBombs          :: Int -> Grid -> IO Grid
+  , iAddBombs'         :: Int -> Grid -> StdGen -> IO Grid
+  , iScore             :: Grid -> Int
+  , iGameOver          :: Grid -> Bool
+  , iShowGrid          :: Grid -> IO()
+  , iUpdateWithBombs   :: Grid -> [(Int, Int)] -> Grid
+  , iDetectAllBombs    :: Grid -> [(Int, Int)]
+  , iUpdateWithClicked :: Grid -> (Int, Int) -> Grid
   -- , iWins         :: Grid -> Bool
   }
 
@@ -25,6 +27,7 @@ runGame i = do
   input <- getLine 
   let l = (read input)
   currentGrid <- iAddBombs i l (iAllBlankGrid i 10)
+  currentGrid' <- iAddBombs' i l (iAllBlankGrid i 10) g
   let bombs = iDetectAllBombs i currentGrid
   let updatedGrid = iUpdateWithBombs i currentGrid bombs
   gameLoop i  updatedGrid

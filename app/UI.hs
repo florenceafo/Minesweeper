@@ -7,6 +7,7 @@ import Grid
 import RunGame
 --import Main 
 import System.IO
+import System.Random
 
 
 canWidth,canHeight :: Num a => a
@@ -20,7 +21,9 @@ main =
   do
     hSetBuffering stdout LineBuffering
     [port] <- getArgs
-    startGUI defaultConfig {jsPort = Just (read port)} setup
+    
+    startGUI defaultConfig {jsPort = Just (read port)} setup 
+    
 
 
 
@@ -30,14 +33,21 @@ setup window =
   
   do -- Create them user interface elements
    -- canvas         <- mkCanvas canWidth canHeight   -- The drawing area
+    -- return $ runGame implementation
     return window # set title "Minesweeper"
      --getBody window #+ [column [pure canvas]]
     let button = UI.button # set UI.text "Click me!"
     currentCoordinates  <- UI.span # set text "Coordinates: "
     currentCell  <- UI.span # set text "Cell: "
+    g <- liftIO newStdGen
+    
+
+
+    let currentGrid = addBombs' 10 (allBlankGrid 10) g
+
     line <- UI.grid [[button]]
      -- Styling
-    getBody window # set style [("backgroundColor","lightblue"),
+    getBody window # set style [("backgroundColor","white"),
                                  ("textAlign","center")]
     createDisplay
     
@@ -57,8 +67,14 @@ setup window =
     --             , UI.span # set UI.text ", a CSS framework."
     --             ]
     --         ]
-    let d = UI.div # set style [("border-style", "solid"), ("border-width", "1px"), ("border-color", "black"), ("width", "48px"), ("height", "48px")]
-    let g = UI.grid $ replicate 10 $ replicate 10 d
+    -- let a = UI.div 
+    --           #+ [UI.h6  
+    --             # set UI.text (show getCellData)]
+    --             # set style [("border-style", "solid"), ("border-width", "1px"), ("border-color", "black"), ("width", "48px"), ("height", "48px")]
+    -- let b = showGrid $ allBlankGrid 10
+    -- let d = UI.div # set style [("border-style", "solid"), ("border-width", "1px"), ("border-color", "black"), ("width", "48px"), ("height", "48px")]
+    -- let g = UI.grid $ replicate 10 $ replicate 10 a
+    let g = UI.grid $ showGridUI (updateWithBombs ex3 $ detectAllBombs ex3)
     wrap <- UI.div #. "wrap"
         -- # set style [("width","600px"),("height","600px"),("border","solid black 1px")]
         # set (attr "tabindex") "1" -- allow key presses
@@ -70,19 +86,52 @@ setup window =
     --         , element right
     --         ]
     --     ]
+    
+    
+
+
     getBody window #+ [element currentCell]
     getBody window #+ [element currentCoordinates]
 
     -- on UI.mousemove   wrap $ \c ->
     --     element out # set text ("cell: " ++ show c)
     on UI.mousedown      wrap $ \c ->
-        element currentCoordinates # set text ("cell: " ++ show c)
+      element currentCoordinates # set text ("cell: " ++ show c)
     on UI.mousedown      wrap $ \c ->
-        element currentCell # set text ("cell: " ++ show (getCellCoordinates c))
-        -- draw some rectangles
-   
-    
+      element currentCell # set text ("cell: " ++ show (getCellCoordinates c))
+      
+    on UI.mousedown      wrap $ \c ->
+      element currentCoordinates # set text "clicked"
+     
+    on UI.mousedown wrap $ \c ->
+      return $ click (getCellCoordinates c) ex3
+
     return()
+
+click :: (Int, Int) -> Grid -> Grid 
+click (x,y) grid = updateWithClicked grid (x,y)
+
+showGridUI :: Grid -> [[UI Element]]
+showGridUI grid = [[ UI.h5 # set text (show (getCell grid' x y)) 
+  # set style [("border-style", "solid"), 
+              ("border-width", "1px"), 
+              ("border-color", "black"), 
+              ("width", "48px"), 
+              ("height", "48px"),
+              ("margin", "0px")]
+  | y <- [0..9] ]| x <- [0..9] ]
+  where 
+    grid' = rows grid
+    getCell grid' i j =  showNumber (grid' !! i !! j)
+    -- showNumber (Blank _ False _ ) = " "
+    showNumber (Blank n c f) = show n  
+    showNumber (Bomb c f) = "?"                                              
+
+getCellData :: String 
+getCellData = "A2"
+
+getCellData' :: String 
+getCellData' = "A2"
 
 createDisplay :: UI Element 
 createDisplay = do

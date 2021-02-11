@@ -56,6 +56,7 @@ ex4 = Grid  [
             ]
 
 
+
 --- creates an arbitrary Grid
 instance Arbitrary Grid where
   arbitrary = fmap Grid (vectorOf 10 (vectorOf 10 cell))
@@ -182,8 +183,6 @@ removeBorder grid = Grid $ [ (tail . init) x | x <- (tail . init) grid']
     grid' = rows grid
     l = length grid'
 
-
-
 -- adds bombs to a blank grid, given an integer
 addBombs :: Int -> Grid -> IO Grid
 addBombs 0 grid = return grid
@@ -191,6 +190,16 @@ addBombs i grid = do
   g <- newStdGen 
   let (grid', seed) = insertBombs g (rows grid)
   addBombs (i-1)  grid'
+
+-- adds bombs to a blank grid, given an integer
+addBombs' :: Int -> Grid -> StdGen -> IO Grid
+addBombs' 0 grid r = return grid
+addBombs' i grid r = do 
+  -- g <- newStdGen 
+  let (grid', seed) = insertBombs r (rows grid)
+  addBombs' (i-1)  grid' r
+
+
 
 -- given a grid and an integer, returns a Grid with bombs inserted
 -- to be added: integer is the ratio of Blanks to Bombs, with Bombs always being one
@@ -213,6 +222,24 @@ insertBombs g grid = do
 getRandomNumber :: RandomGen g => g -> Int -> (Int, g)
 getRandomNumber g n = randomR (0,n::Int) g
 
+-- updates adjacent cells with an increased count
+-- only attempts to change bombs, not surrounding cells
+-- updateWithBombs :: Grid -> [(Int, Int)] -> Grid
+updateWithClicked :: Grid -> (Int, Int) -> Grid
+updateWithClicked grid (x,y) = Grid $ before ++ [startRow, [currentCell], endRow] ++ after
+
+  where 
+    grid' = rows (addBorder grid)
+    -- row before the row with the current bomb
+    before = take x grid' 
+    -- row after the row with the current bomb
+    current = grid' !! x
+    after = drop (x + 1) grid'
+    -- update the row with the current bomb
+    startRow = take y current
+    endRow = drop (y+1) current
+    currentCell = clicked (current !! y)
+
 -- updates a cell as clicked on
 clicked :: Cell -> Cell 
 clicked (Blank i c True) = Blank i c True
@@ -234,13 +261,15 @@ score :: Grid -> Int
 score grid = 0
 
 implementation = Interface
-  { iAllBlankGrid    = allBlankGrid,
-    iAddBombs        = addBombs,
-    iScore           = score,  
-    iGameOver        = gameOver,
-    iShowGrid        = showGrid',
-    iUpdateWithBombs = updateWithBombs,
-    iDetectAllBombs  = detectAllBombs
+  { iAllBlankGrid      = allBlankGrid,
+    iAddBombs          = addBombs,
+    iAddBombs'          = addBombs',
+    iScore             = score,  
+    iGameOver          = gameOver,
+    iShowGrid          = showGrid',
+    iUpdateWithBombs   = updateWithBombs,
+    iDetectAllBombs    = detectAllBombs,
+    iUpdateWithClicked = updateWithClicked
   }
 
 
